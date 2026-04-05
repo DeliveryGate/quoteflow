@@ -1,0 +1,35 @@
+{% comment %}QuoteFlow — Request a Quote Button (Product Pages){% endcomment %}
+
+<div class="qf-button-wrap" data-product-id="{{ product.id }}" data-product-title="{{ product.title | escape }}" data-variant-id="{{ product.selected_or_first_available_variant.id }}" data-product-price="{{ product.price | money }}">
+  {% if block.settings.show_quantity %}
+    <div class="qf-qty-row">
+      <label class="qf-qty-label" for="qf-qty">Quantity:</label>
+      <input type="number" id="qf-qty" class="qf-qty-input" value="1" min="1" max="9999">
+    </div>
+  {% endif %}
+  <button class="qf-btn qf-btn--{{ block.settings.button_style }}" data-qf-open-form {% if block.settings.accent_colour %}style="--qf-accent: {{ block.settings.accent_colour }}"{% endif %}>
+    {{ block.settings.button_text }}
+  </button>
+</div>
+
+{% schema %}
+{
+  "name": "Quote Button",
+  "target": "section",
+  "settings": [
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Request a Quote" },
+    { "type": "select", "id": "button_style", "label": "Style", "options": [
+      { "value": "primary", "label": "Primary" },
+      { "value": "secondary", "label": "Secondary" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "primary" },
+    { "type": "select", "id": "placement", "label": "Placement", "options": [
+      { "value": "alongside_atc", "label": "Alongside Add to Cart" },
+      { "value": "below_atc", "label": "Below Add to Cart" },
+      { "value": "replace_atc", "label": "Replace Add to Cart" }
+    ], "default": "alongside_atc" },
+    { "type": "checkbox", "id": "show_quantity", "label": "Show quantity field", "default": true },
+    { "type": "color", "id": "accent_colour", "label": "Accent colour", "default": "#0EA5E9" }
+  ]
+}
+{% endschema %}

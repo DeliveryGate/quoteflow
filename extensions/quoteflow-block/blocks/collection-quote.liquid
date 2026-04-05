@@ -1,0 +1,44 @@
+{% comment %}QuoteFlow — Collection Quote Basket{% endcomment %}
+
+<div class="qf-collection" id="qf-collection">
+  <div class="qf-basket" id="qf-basket" style="display:none;">
+    <div class="qf-basket__header">
+      <span class="qf-basket__icon">&#128196;</span>
+      <span class="qf-basket__count">0</span> items in quote
+    </div>
+    <button class="qf-btn qf-btn--primary qf-basket__submit" id="qf-basket-submit">Submit Quote Request</button>
+  </div>
+</div>
+
+<style>
+  .qf-collection .product-card .qf-add-to-quote { display: inline-block; margin-top: 8px; }
+</style>
+
+<script>
+  // Injects "Add to Quote" buttons on collection product cards
+  (function() {
+    var cards = document.querySelectorAll('.product-card, .grid__item, .product-grid-item, [data-product-id]');
+    cards.forEach(function(card) {
+      var pid = card.dataset.productId || card.querySelector('[data-product-id]')?.dataset.productId;
+      if (!pid) return;
+      var title = card.querySelector('.product-card__title, .card__heading, h3, h2')?.textContent?.trim() || '';
+      var btn = document.createElement('button');
+      btn.className = 'qf-btn qf-btn--outline qf-btn--small qf-add-to-quote';
+      btn.textContent = 'Add to Quote';
+      btn.dataset.productId = pid;
+      btn.dataset.productTitle = title;
+      btn.addEventListener('click', function() { window.QFBasket.add(pid, title); });
+      card.appendChild(btn);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection Quote Basket",
+  "target": "section",
+  "settings": [
+    { "type": "color", "id": "accent_colour", "label": "Accent colour", "default": "#0EA5E9" }
+  ]
+}
+{% endschema %}

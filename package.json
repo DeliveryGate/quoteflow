@@ -1,0 +1,9 @@
+{
+  "name": "quoteflow",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "cd web && node index.js", "dev": "shopify app dev" },
+  "dependencies": { "dotenv": "^16.4.5" },
+  "engines": { "node": ">=18.0.0" }
+}

@@ -1,0 +1,85 @@
+{% comment %}QuoteFlow — Quote Request Form Modal{% endcomment %}
+
+<div class="qf-modal" id="qf-modal" role="dialog" aria-modal="true" aria-label="Request a Quote" style="display:none;">
+  <div class="qf-modal__overlay" data-qf-close></div>
+  <div class="qf-modal__content">
+    <button class="qf-modal__close" data-qf-close aria-label="Close">&times;</button>
+    <h2 class="qf-modal__title">Request a Quote</h2>
+
+    <div class="qf-form-product" id="qf-form-product"></div>
+
+    <form class="qf-form" id="qf-form" novalidate>
+      <input type="hidden" name="productId" id="qf-product-id">
+      <input type="hidden" name="variantId" id="qf-variant-id">
+      <input type="hidden" name="productTitle" id="qf-product-title">
+      <input type="hidden" name="shop" value="{{ shop.permanent_domain }}">
+
+      <div class="qf-form__row">
+        <div class="qf-form__field">
+          <label for="qf-fname">First name <span class="qf-required">*</span></label>
+          <input type="text" id="qf-fname" name="firstName" required>
+        </div>
+        <div class="qf-form__field">
+          <label for="qf-lname">Last name <span class="qf-required">*</span></label>
+          <input type="text" id="qf-lname" name="lastName" required>
+        </div>
+      </div>
+
+      <div class="qf-form__field">
+        <label for="qf-company">Company name</label>
+        <input type="text" id="qf-company" name="company">
+      </div>
+
+      <div class="qf-form__row">
+        <div class="qf-form__field">
+          <label for="qf-email">Email <span class="qf-required">*</span></label>
+          <input type="email" id="qf-email" name="email" required>
+        </div>
+        <div class="qf-form__field">
+          <label for="qf-phone">Phone</label>
+          <input type="tel" id="qf-phone" name="phone">
+        </div>
+      </div>
+
+      <div class="qf-form__field">
+        <label for="qf-quantity">Quantity required</label>
+        <input type="number" id="qf-quantity" name="quantity" min="1" value="1">
+      </div>
+
+      <div class="qf-form__field">
+        <label for="qf-budget">Target budget (optional)</label>
+        <input type="text" id="qf-budget" name="targetBudget" placeholder="e.g. £500">
+      </div>
+
+      <div class="qf-form__field">
+        <label for="qf-notes">Additional notes</label>
+        <textarea id="qf-notes" name="notes" rows="3" placeholder="Any special requirements..."></textarea>
+      </div>
+
+      <div class="qf-form__field">
+        <label class="qf-checkbox-label">
+          <input type="checkbox" name="gdprConsent" required>
+          I agree to be contacted about this quote request
+        </label>
+      </div>
+
+      <div class="qf-form__error" id="qf-form-error" style="display:none;"></div>
+      <div class="qf-form__success" id="qf-form-success" style="display:none;">
+        Thank you! We'll send your quote within {{ block.settings.response_hours | default: 24 }} business hours.
+      </div>
+
+      <button type="submit" class="qf-btn qf-btn--primary qf-form__submit" id="qf-submit">Send Quote Request</button>
+    </form>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Quote Form",
+  "target": "section",
+  "settings": [
+    { "type": "number", "id": "response_hours", "label": "Response time (hours)", "default": 24 },
+    { "type": "color", "id": "accent_colour", "label": "Accent colour", "default": "#0EA5E9" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,84 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Session {
+  id          String    @id
+  shop        String
+  state       String
+  isOnline    Boolean   @default(false)
+  scope       String?
+  expires     DateTime?
+  accessToken String
+  userId      BigInt?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Quote {
+  id             String    @id @default(cuid())
+  shop           String
+  reference      String    @unique
+  status         String    @default("pending")
+  firstName      String
+  lastName       String
+  company        String?
+  email          String
+  phone          String?
+  products       String    @db.Text
+  quantity       Int?
+  targetBudget   String?
+  notes          String?   @db.Text
+  quotedPrice    Decimal?  @db.Decimal(10, 2)
+  quotedMessage  String?   @db.Text
+  validUntil     DateTime?
+  draftOrderId   String?
+  draftOrderUrl  String?
+  source         String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  respondedAt    DateTime?
+  convertedAt    DateTime?
+}
+
+model MerchantSettings {
+  id                   String   @id @default(cuid())
+  shop                 String   @unique
+  notificationsEnabled Boolean  @default(true)
+  autoReplyEnabled     Boolean  @default(true)
+  autoReplyMessage     String?  @db.Text
+  responseTimeHours    Int      @default(24)
+  requireCompany       Boolean  @default(false)
+  requirePhone         Boolean  @default(false)
+  showBudgetField      Boolean  @default(false)
+  customTerms          String?  @db.Text
+  logoUrl              String?
+  accentColour         String   @default("#0EA5E9")
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model MerchantPlan {
+  id             String   @id @default(cuid())
+  shop           String   @unique
+  plan           String   @default("free")
+  subscriptionId String?
+  quoteCount     Int      @default(0)
+  monthReset     DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model RateLimit {
+  id        String   @id @default(cuid())
+  key       String
+  count     Int      @default(1)
+  windowEnd DateTime
+  @@unique([key])
+}
