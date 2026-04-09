@@ -16,17 +16,6 @@ api_version = "2026-07"
   topics = [ "app/uninstalled" ]
   uri = "/api/webhooks/app-uninstalled"
 
-  [[webhooks.subscriptions]]
-  topics = [ "shop/redact" ]
-  uri = "/api/webhooks/shop-redact"
-
-  [[webhooks.subscriptions]]
-  topics = [ "customers/redact" ]
-  uri = "/api/webhooks/customers-redact"
-
-  [[webhooks.subscriptions]]
-  topics = [ "customers/data_request" ]
-  uri = "/api/webhooks/customers-data-request"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
